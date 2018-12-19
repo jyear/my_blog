@@ -8,21 +8,40 @@ function user() {
 }
 user.prototype = {
     save: async function(data) {
-        var newUser = new UserModel({
-            ...data
+        return new Promise(async (resolve, reject) => {
+            var newUser = new UserModel({
+                ...data
+            });
+            try {
+                let save = await newUser.save();
+                resolve({
+                    state: "success",
+                    data: save
+                });
+            } catch (e) {
+                reject({
+                    state: "error",
+                    message: e.errmsg
+                });
+            }
         });
-        try {
-            let save = await newUser.save();
-            return {
-                state: "success",
-                data: save
-            };
-        } catch (e) {
-            return {
-                state: "error",
-                message: e.errmsg
-            };
-        }
+    },
+    findByAccount: async function(data) {
+        return new Promise((resolve, reject) => {
+            try {
+                UserModel.find({ account: data }).exec(function(err, res) {
+                    resolve({
+                        state: "success",
+                        data: res
+                    });
+                });
+            } catch (e) {
+                reject({
+                    state: "error",
+                    message: e
+                });
+            }
+        });
     }
 };
 module.exports = user;

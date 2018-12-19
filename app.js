@@ -4,6 +4,7 @@ const bodyParser = require("koa-bodyparser");
 const corsEvent = require("./utils/cors");
 const koaStaticPlus = require("koa-static-plus");
 const errorEvent = require("./utils/error");
+const errorHandler = require("./error/errormessage");
 const routes = require("./utils/setrouter");
 
 const app = new Koa();
@@ -23,7 +24,7 @@ app.use(
 app.use(errorEvent);
 //参数处理
 app.use(bodyParser());
-
+app.on("err", errorHandler);
 let env = process.env.NODE_ENV;
 if (env === "production") {
     app.listen(8001, "0.0.0.0");

@@ -4,11 +4,12 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "dev": "supervisor app.js"
+        "dev": "cross-env NODE_ENV=development supervisor app.js"
     },
     "author": "",
     "license": "ISC",
     "devDependencies": {
+        "cross-env": "^5.2.0",
         "koa-bodyparser": "^4.2.1",
         "koa-router": "^7.4.0",
         "koa-static-plus": "^0.1.1",
