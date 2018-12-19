@@ -1,5 +1,6 @@
 const router = require("koa-router")();
 const userModel = require("../../models/user/Model");
+const { vilidDataFun } = require("../../utils/utils");
 const user = new userModel();
 router.post("/", async (ctx, next) => {
     await next();
@@ -8,6 +9,33 @@ router.post("/", async (ctx, next) => {
     let resBody = {};
     let keys = Object.keys(query);
     res.status = 200;
+    vilidDataFun(
+        {
+            name: {
+                isEmpty: false,
+                length: {
+                    minLength: 6,
+                    maxLength: 16
+                }
+            },
+            password: {
+                isEmpty: false,
+                length: {
+                    minLength: 6,
+                    maxLength: 16
+                }
+            },
+            account: {
+                isEmpty: false,
+                length: {
+                    minLength: 6,
+                    maxLength: 16
+                }
+            }
+        },
+        query
+    );
+
     if (keys.indexOf("name") == -1 || query.name.length <= 0) {
         resBody.message = "名称不能为空";
         resBody.code = "403";
