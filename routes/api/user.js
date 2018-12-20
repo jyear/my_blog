@@ -1,49 +1,42 @@
 const router = require("koa-router")();
 const userModel = require("../../models/user/Model");
-const vilidDataFun = require("../../utils/vilidata");
+const vilidData = require("../../utils/vilidata");
 const user = new userModel();
 router.post("/", async (ctx, next) => {
     let res = ctx.response;
     let query = ctx.query;
     let resBody = {};
     res.status = 200;
-    let isVilid = false;
-    try {
-        vilidDataFun(
-            {
-                name: {
-                    empty: true,
-                    length: {
-                        maxLength: 16
-                    }
-                },
-                password: {
-                    empty: true,
-                    length: {
-                        minLength: 6,
-                        maxLength: 16
-                    }
-                },
-                account: {
-                    empty: true,
-                    length: {
-                        minLength: 6,
-                        maxLength: 16
-                    }
+    let vilid = vilidData(
+        {
+            name: {
+                empty: true,
+                length: {
+                    maxLength: 16
                 }
             },
-            query
-        );
-        isVilid = true;
-    } catch (e) {
-        if (e) {
-            resBody.message = e.toString().replace("Error:", "");
-            resBody.code = "403";
-            res.body = resBody;
-        }
+            password: {
+                empty: true,
+                length: {
+                    minLength: 6,
+                    maxLength: 16
+                }
+            },
+            account: {
+                empty: true,
+                length: {
+                    minLength: 6,
+                    maxLength: 16
+                }
+            }
+        },
+        query
+    );
+    if (vilid.state == "error") {
+        resBody.message = vilid.message;
+        resBody.code = "403";
+        res.body = resBody;
         await next();
-    }
-    if (!isVilid) {
         return;
     }
     let m = await user.findByAccount(query.account);

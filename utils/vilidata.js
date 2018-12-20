@@ -40,17 +40,17 @@ function vilidDataFun(vilitor, data) {
                             let len = vilidLength(vilitor[item][v], data[item]);
                             if (!len) {
                                 throw new Error(
-                                    `${item}长度不合法，${
-                                        item.length.maxLength
-                                            ? "长度不得大于" +
-                                              item.length.maxLength
+                                    `${item}长度不合法${
+                                        vilitor[item][v].maxLength
+                                            ? ",长度不得大于" +
+                                              vilitor[item][v].maxLength
                                             : ""
-                                    },
-                                ${
-                                    item.length.minLength
-                                        ? "长度不得小于" + item.length.minLength
-                                        : ""
-                                }`
+                                    }${
+                                        vilitor[item][v].minLength
+                                            ? ",长度不得小于" +
+                                              vilitor[item][v].minLength
+                                            : ""
+                                    }`
                                 );
                             }
                             break;
@@ -68,5 +68,22 @@ function vilidDataFun(vilitor, data) {
         });
     }
 }
-
-module.exports = vilidDataFun;
+function vilidData(vilitor, data) {
+    try {
+        vilidDataFun(vilitor, data);
+    } catch (e) {
+        if (e) {
+            return {
+                state: "error",
+                message: e
+                    .toString()
+                    .trim()
+                    .replace("Error:", "")
+            };
+        }
+    }
+    return {
+        state: "success"
+    };
+}
+module.exports = vilidData;
