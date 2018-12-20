@@ -3,7 +3,8 @@ const userModel = require("../../models/user/Model");
 const vilidData = require("../../utils/vilidata");
 const user = new userModel();
 router.get("/", async (ctx, next) => {
-    let list = await user.find();
+    let { page, pagesize } = ctx.query;
+    let list = await user.find({ page, pagesize });
     let resList = [];
     list.data.map(item => {
         resList.push({
@@ -15,6 +16,7 @@ router.get("/", async (ctx, next) => {
             create_date: item.create_date
         });
     });
+
     let resBody = {};
     ctx.response.status = 200;
     if (list.state == "success") {

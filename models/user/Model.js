@@ -48,22 +48,27 @@ user.prototype = {
             }
         });
     },
-    find: async function() {
+    find: async function(query) {
         return new Promise((resolve, reject) => {
+            let { page = 1, pagesize = 1 } = query;
+            let skip = (page - 1) * pagesize;
             try {
-                UserModel.find({}).exec(function(err, res) {
-                    if (!err) {
-                        resolve({
-                            state: "success",
-                            data: res
-                        });
-                    } else {
-                        reject({
-                            state: "error",
-                            message: err
-                        });
-                    }
-                });
+                UserModel.find({})
+                    .limit(Number(pagesize))
+                    .skip(skip)
+                    .exec(function(err, res) {
+                        if (!err) {
+                            resolve({
+                                state: "success",
+                                data: res
+                            });
+                        } else {
+                            reject({
+                                state: "error",
+                                message: err
+                            });
+                        }
+                    });
             } catch (e) {
                 reject({
                     state: "error",
