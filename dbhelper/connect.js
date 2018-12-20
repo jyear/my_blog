@@ -1,12 +1,12 @@
 var mongoose = require("mongoose");
-var config = require("../config/index");
-function connectMongo(collection) {
-    var dblink = `mongodb://${config.mongodb}/${
-        collection ? collection : "myblog"
-    }`;
+function connectMongo({ address, database }) {
+    var dblink = `mongodb://${address}/${database}`;
     mongoose.connect(
         dblink,
-        { config: { autoIndex: false } }
+        {
+            config: { autoIndex: false },
+            useNewUrlParser: true
+        }
     );
     var db = mongoose.connection;
     return new Promise((resolve, reject) => {

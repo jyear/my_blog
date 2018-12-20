@@ -6,7 +6,11 @@ const koaStaticPlus = require("koa-static-plus");
 const errorEvent = require("./utils/error");
 const errorHandler = require("./error/errormessage");
 const routes = require("./utils/setrouter");
-
+//初始化数据库
+const initMongo = require("./models/mongoinit");
+initMongo().then(res => {
+    console.log("链接数据库成功");
+});
 const app = new Koa();
 //跨域处理
 app.use(corsEvent);
