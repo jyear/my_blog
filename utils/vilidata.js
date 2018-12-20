@@ -83,7 +83,8 @@ function vilidData(vilitor, data) {
         }
     }
     return {
-        state: "success"
+        state: "success",
+        message: "验证成功"
     };
 }
 module.exports = vilidData;

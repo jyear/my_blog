@@ -36,6 +36,7 @@ router.post("/", async (ctx, next) => {
         resBody.message = vilid.message;
         resBody.code = "403";
         res.body = resBody;
+        debugger;
         await next();
         return;
     }

@@ -1,4 +1,4 @@
-const Koa = require("koa2");
+const Koa = require("koa");
 const path = require("path");
 const bodyParser = require("koa-bodyparser");
 const corsEvent = require("./utils/cors");
@@ -20,12 +20,15 @@ app.use(
         maxage: 300000
     })
 );
+
 //错误status处理
 app.use(errorEvent);
 //参数处理
 app.use(bodyParser());
-app.on("err", errorHandler);
+app.on("error", errorHandler);
+
 let env = process.env.NODE_ENV;
+
 if (env === "production") {
     app.listen(8001, "0.0.0.0");
 } else {
