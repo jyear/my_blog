@@ -16,7 +16,6 @@ router.get("/", async (ctx, next) => {
             create_date: item.create_date
         });
     });
-
     let resBody = {};
     ctx.response.status = 200;
     if (list.state == "success") {
