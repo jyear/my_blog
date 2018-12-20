@@ -2,10 +2,8 @@ const Schema = require("./Schema");
 const mongoose = require("mongoose");
 const dbHelper = require("../../dbhelper/connect");
 let UserModel = mongoose.model("user", Schema);
-
-function user() {
-    let db = dbHelper();
-}
+let db = dbHelper();
+function user() {}
 user.prototype = {
     save: async function(data) {
         return new Promise(async (resolve, reject) => {
@@ -30,10 +28,41 @@ user.prototype = {
         return new Promise((resolve, reject) => {
             try {
                 UserModel.find({ account: data }).exec(function(err, res) {
-                    resolve({
-                        state: "success",
-                        data: res
-                    });
+                    if (!err) {
+                        resolve({
+                            state: "success",
+                            data: res
+                        });
+                    } else {
+                        reject({
+                            state: "error",
+                            message: err
+                        });
+                    }
+                });
+            } catch (e) {
+                reject({
+                    state: "error",
+                    message: e
+                });
+            }
+        });
+    },
+    find: async function() {
+        return new Promise((resolve, reject) => {
+            try {
+                UserModel.find({}).exec(function(err, res) {
+                    if (!err) {
+                        resolve({
+                            state: "success",
+                            data: res
+                        });
+                    } else {
+                        reject({
+                            state: "error",
+                            message: err
+                        });
+                    }
                 });
             } catch (e) {
                 reject({

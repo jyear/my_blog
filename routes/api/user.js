@@ -2,6 +2,35 @@ const router = require("koa-router")();
 const userModel = require("../../models/user/Model");
 const vilidData = require("../../utils/vilidata");
 const user = new userModel();
+router.get("/", async (ctx, next) => {
+    let list = await user.find();
+    let resList = [];
+    list.data.map(item => {
+        resList.push({
+            _id: item._id,
+            account: item.account,
+            password: item.password,
+            address: item.address,
+            name: item.name,
+            create_date: item.create_date
+        });
+    });
+    let resBody = {};
+    ctx.response.status = 200;
+    if (list.state == "success") {
+        resBody = {
+            code: 200,
+            data: resList
+        };
+    } else {
+        resBody = {
+            code: 300,
+            message: list.message
+        };
+    }
+    ctx.response.body = resBody;
+    await next();
+});
 router.post("/", async (ctx, next) => {
     let res = ctx.response;
     let query = ctx.query;
@@ -50,7 +79,8 @@ router.post("/", async (ctx, next) => {
             let save = await user.save({
                 account: query.account,
                 name: query.name,
-                password: query.password
+                password: query.password,
+                address: query.address
             });
             if (save.state == "success") {
                 resBody = {

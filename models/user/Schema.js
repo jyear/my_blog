@@ -16,6 +16,10 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    address: {
+        type: String,
+        default: ""
+    },
     create_date: {
         type: Date,
         default: new Date()

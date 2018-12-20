@@ -55,12 +55,19 @@ function vilidDataFun(vilitor, data) {
                             }
                             break;
                         case "vilitorList":
-                            vilitor[item][v].map(vilidItem => {
-                                let res = vilidItem.vilitor(data[item]);
-                                if (!res) {
-                                    throw new Error(vilidItem.message);
-                                }
-                            });
+                            if (
+                                vilitor[item][v] &&
+                                vilitor[item][v] instanceof Array &&
+                                vilitor[item][v].length > 0
+                            ) {
+                                vilitor[item][v].map(vilidItem => {
+                                    let res = vilidItem.vilitor(data[item]);
+                                    if (!res) {
+                                        throw new Error(vilidItem.message);
+                                    }
+                                });
+                            }
+
                             break;
                     }
                 });
