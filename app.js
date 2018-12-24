@@ -13,6 +13,7 @@ const initMongo = require("./models/mongoinit");
 initMongo().then(res => {
     console.log("链接数据库成功");
 });
+
 const app = new Koa();
 app.use(response);
 

@@ -11,10 +11,16 @@ log4js.configure({
             type: "file",
             filename: path.join(__dirname, "./logs/debug.log"),
             maxLogSize: 102400
+        },
+        database: {
+            type: "file",
+            filename: path.join(__dirname, "./logs/database.log"),
+            maxLogSize: 102400
         }
     },
     categories: {
         default: { appenders: ["error"], level: "error" },
+        database: { appenders: ["database"], level: "error" },
         debug: { appenders: ["debug"], level: "debug" }
     }
 });
