@@ -9,6 +9,7 @@ const routes = require("./utils/setrouter");
 const response = require("./middleware/handlerresponse");
 //初始化数据库
 const initMongo = require("./models/mongoinit");
+
 initMongo().then(res => {
     console.log("链接数据库成功");
 });

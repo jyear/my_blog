@@ -1,6 +1,6 @@
 const Schema = require("./Schema");
 const mongoose = require("mongoose");
-const dbHelper = require("../../dbhelper/connect");
+// const dbHelper = require("../../dbhelper/connect");
 let UserModel = mongoose.model("user", Schema);
 function user() {}
 user.prototype = {

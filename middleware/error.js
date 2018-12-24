@@ -8,13 +8,13 @@ const errorEvent = async (ctx, next) => {
         } else {
             res.body = {
                 status: ctx.status,
-                msg: "路由不存在",
-                content: ctx.request
+                message: "路由不存在" + ctx.request,
+                code: 404
             };
             await next();
         }
     } else if (ctx.status >= 500) {
-        res.body = { status: ctx.status };
+        res.body = { status: ctx.status, message: "服务器错误" };
         await next();
     }
 };
