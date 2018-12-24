@@ -78,6 +78,10 @@ function vilidDataFun(vilitor, data) {
 function vilidData(vilitor, data) {
     try {
         vilidDataFun(vilitor, data);
+        return {
+            state: "success",
+            message: "验证成功"
+        };
     } catch (e) {
         if (e) {
             return {
@@ -89,9 +93,5 @@ function vilidData(vilitor, data) {
             };
         }
     }
-    return {
-        state: "success",
-        message: "验证成功"
-    };
 }
 module.exports = vilidData;

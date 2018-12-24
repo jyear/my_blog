@@ -3,15 +3,18 @@ const path = require("path");
 const bodyParser = require("koa-bodyparser");
 const corsEvent = require("./utils/cors");
 const koaStaticPlus = require("koa-static-plus");
-const errorEvent = require("./utils/error");
-const errorHandler = require("./error/errormessage");
+const errorEvent = require("./middleware/error");
+const errorHandler = require("./middleware/errormessage");
 const routes = require("./utils/setrouter");
+const response = require("./middleware/handlerresponse");
 //初始化数据库
 const initMongo = require("./models/mongoinit");
 initMongo().then(res => {
     console.log("链接数据库成功");
 });
 const app = new Koa();
+app.use(response);
+
 //跨域处理
 app.use(corsEvent);
 //路由
@@ -27,6 +30,7 @@ app.use(
 
 //错误status处理
 app.use(errorEvent);
+
 //参数处理
 app.use(bodyParser());
 app.on("error", errorHandler);

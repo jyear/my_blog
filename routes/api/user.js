@@ -17,7 +17,6 @@ router.get("/", async (ctx, next) => {
         });
     });
     let resBody = {};
-    ctx.response.status = 200;
     if (list.state == "success") {
         resBody = {
             code: 200,
@@ -36,7 +35,6 @@ router.post("/", async (ctx, next) => {
     let res = ctx.response;
     let query = ctx.query;
     let resBody = {};
-    res.status = 200;
     let vilid = vilidData(
         {
             name: {
@@ -64,15 +62,14 @@ router.post("/", async (ctx, next) => {
     );
     if (vilid.state == "error") {
         resBody.message = vilid.message;
-        resBody.code = "403";
+        resBody.code = 403;
         res.body = resBody;
-        debugger;
         await next();
         return;
     }
     let m = await user.findByAccount(query.account);
     if (m && m.data && m.data.length > 0) {
-        resBody.message = "账号已经存在";
+        resBody.message = `${query.account}`;
         resBody.code = 301;
         res.body = resBody;
     } else {
